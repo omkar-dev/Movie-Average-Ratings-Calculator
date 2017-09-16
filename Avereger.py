@@ -1,13 +1,8 @@
-import urllib.request
+
 import requests
-import urllib3
-
-
-
 
 
 from bs4 import BeautifulSoup
-
 
 
 
@@ -33,13 +28,13 @@ ptags =0
 
 #first Check if the  link is Valid
 
-# wrapper 1 : Site :https://in.bookmyshow.com/movies/nowshowing (Book my show
+# wrapper 1 : Site :https://in.bookmyshow.com/movies/nowshowing (Book my show)
 
 
  #   Dummy Link 1
-url2="https://in.bookmyshow.com/mumbai/movies/ba-pass-2/ET00061579#trailer"
+
 url1 ="https://in.bookmyshow.com/mumbai/movies/lucknow-central/ET00050941"
-page = requests.get(url2, verify=False)
+page = requests.get(url1, verify=False)
 htmlfile=page.content
 soup = BeautifulSoup(htmlfile, "html.parser")
 for link in soup.findAll("div", { "class" : "user-rating" }):
@@ -51,7 +46,20 @@ for link in soup.findAll("div", { "class" : "user-rating" }):
 
 
 
+            #   Dummy Link 1
+        # wrapper 1 : Site : (http://www.nowrunning.com/)
+url2 = "http://www.nowrunning.com/movie/20570/bollywood.hindi/lucknow-central/9010/review/"
 
+page = requests.get(url2, verify=False)
+htmlfile = page.content
+
+soup = BeautifulSoup(htmlfile, "html.parser")
+for link in soup.findAll("div", {"class": "AudienceRatingContainer"}):
+    #print(link)
+    for k in link.findAll("div", {"class": "img-square themeBg"}):
+        #print(k)
+        for j in k.findAll("span", {"id": "ctl00_ContentPlaceHolderMainContent_RatingSummary1_UserRating"}):
+            print(j.contents[0])
 
 
 #<ul class="rating-stars" data-value="3.8">
@@ -60,69 +68,40 @@ for link in soup.findAll("div", { "class" : "user-rating" }):
 
 
 
-#htmlfile = urllib.request.urlopen(url1)
-
-#soup = BeautifulSoup(htmlfile, "html.parser")
+# wrapper 3 : Site :https://in.bookmyshow.com/movies/nowshowing (Book my show)
 
 
+ #   Dummy Link 1
+
+url3 ="http://timesofindia.indiatimes.com/entertainment/hindi/movie-reviews/rabbi/movie-review/60710654.cms"
+page = requests.get(url3, verify=False)
+htmlfile=page.content
+soup = BeautifulSoup(htmlfile, "html.parser")
+#print(soup)
+for link in soup.findAll("div", { "class" : "flmcasting" }):
+    #print(link)
+    for k in link.findAll("span", { "class" : "ratingMovie" }):
+        print (k.contents[0].split("/")[0])
 
 
 
 
 
-while i < len(urls):
-    htmlfile = urllib.request.urlopen(urls[i])
+url4="http://www.koimoi.com/reviews/lucknow-central-movie-review-outstanding-script/"
+
+page = requests.get(url4, verify=False)
+htmlfile = page.content
+
+soup = BeautifulSoup(htmlfile, "html.parser")
+for link in soup.findAll("div", {"class": "td-post-content"}):
+    #print(link)
+    for k in link.findAll("p"):
+        if(k.contents[0].find("rating")==1):
+            print(k)
+        #print(k)
 
 
-    soup = BeautifulSoup(htmlfile,"html.parser")
-    for link in soup.findAll('meta'):
-        k= link.get('name')
-        #print k
-        if(k!='None'):
-         if(k=='keywords'):
-            metac += 1
-         if (k == 'description'):
-             metac += 1
-        if (k == 'viewport'):
-            print('view port present for responsiveness')
-            metac += 1
-        if (k == 'author'):
-            metac += 1
 
-    htmltext = htmlfile.read()
-    # print htmltext
-    i += 1
-    print ("The Meta Count is " )
-    print  (metac)
-
-i = 0
-while i < len(urls):
-    htmlfile = urllib.request.urlopen(urls[i])
-
-    soup = BeautifulSoup(htmlfile, "html.parser")
-    for link in soup.findAll('a'):
-        atags  += 1
-        k= link.get('href')
-
-        #print k
-        if(k=='None'):
-            deadlink += 1
-        if(k=='#'):
-            deadlink += 1
-        if (k):
-            activelink += 1
-
-    htmltext = htmlfile.read()
-    # print htmltext
-    i += 1
-    print ("Dead Link are ")
-    print (deadlink)
-    print ("Active Link are Link are ")
-    print (activelink)
-    print("total anchor tags are")
-   # print (tags)
-    print("  ")
-tpresent =0
 
 
 
